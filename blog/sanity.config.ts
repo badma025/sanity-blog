@@ -9,6 +9,9 @@ import {deskTool} from 'sanity/desk'
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schema'
+import { CodeInput, codeInput } from '@sanity/code-input'
+import { presentationTool } from 'sanity/presentation'
+import { locate } from './sanity/presentation/locate'
 
 export default defineConfig({
   basePath: '/studio',
@@ -18,8 +21,17 @@ export default defineConfig({
   schema,
   plugins: [
     deskTool(),
+    codeInput(),
+    visionTool(),
+    locate,
+    presentationTool({
+      previewUrl: {
+        draftMode: {
+          enable: '/api/draft',
+        },
+      },
+    }),
     // Vision is a tool that lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
-    visionTool({defaultApiVersion: apiVersion}),
   ],
 })
